@@ -3,12 +3,13 @@ import pino, { version } from 'pino';
 import { randomUUID } from 'crypto';
 
 import { matchLogLevelToOtel } from './utils';
-
+import { unixEpochTimeToNanosec } from "./time";
 import { REVERED_SEVERITY_NAME_MAP } from './consts';
 
 const a = pino({
   customLevels: REVERED_SEVERITY_NAME_MAP,
   useOnlyCustomLevels: true,
+  
   formatters: {
     level(label, number) {
       const mapping = matchLogLevelToOtel(label, number);
@@ -37,4 +38,8 @@ const a = pino({
       // "host.image.version": os.release(),
     },
   },
+  messageKey: 'Body',
+  timestamp: () => `,Timestamp: ${unixEpochTimeToNanosec(Date.now())}`,
 });
+
+a.info({a: 5}, 'avi is implemented');

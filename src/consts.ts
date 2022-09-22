@@ -56,4 +56,4 @@ export const SEVERITY_NAME_MAP: SeverityMap = {
   24: 'FATAL4'
 };
 
-export const REVERED_SEVERITY_NAME_MAP = buildSwappedSevNameMap(SEVERITY_NAME_MAP);
+export const REVERED_SEVERITY_NAME_MAP = { ...buildSwappedSevNameMap(SEVERITY_NAME_MAP), 'trace': 1, 'debug': 5, 'info': 9, 'warn': 13, 'error': 17, 'fatal': 21 };

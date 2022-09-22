@@ -1,4 +1,3 @@
-import pino from 'pino';
 import { SEVERITY_NAME_MAP } from './consts';
 
 export function matchLogLevelToOtel(levelLabel: string, levelNumber: number) : { SeverityNumber: number, SeverityText: string } {
@@ -25,5 +24,4 @@ export function matchLogLevelToOtel(levelLabel: string, levelNumber: number) : {
       return { SeverityNumber: levelNumber, SeverityText: levelLabel };
     }
   }
-
 }

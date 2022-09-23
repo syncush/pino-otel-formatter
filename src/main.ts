@@ -9,12 +9,16 @@ import { REVERED_SEVERITY_NAME_MAP } from './consts';
 const a = pino({
   customLevels: REVERED_SEVERITY_NAME_MAP,
   useOnlyCustomLevels: true,
-  
   formatters: {
     level(label, number) {
       const mapping = matchLogLevelToOtel(label, number);
       return mapping;
     },
+    log(obj) {
+      const attributes = obj.attributes as Record<string, string>;
+      attributes['http.method'] = 'get';
+      return { ...obj, attributes };
+    }
   },
   base: {
     InstrumentationScope: { myLogger: version },
@@ -40,6 +44,9 @@ const a = pino({
   },
   messageKey: 'Body',
   timestamp: () => `,Timestamp: ${unixEpochTimeToNanosec(Date.now())}`,
+  serializers: {
+    meow: () => { return { avi: 1000000 }; }
+  }
 });
 
-a.info({a: 5}, 'avi is implemented');
+a.info({attributes: { a: 5 }, meow: { avi: 8 }}, 'avi is implemented');
